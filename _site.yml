@@ -1,0 +1,17 @@
+name: "Results"
+navbar:
+  title: "<img src=\"figures/Rlogo.png\" style=\"float: left;\" width=\"80px\"/>"
+  left:
+    - text: "Journal"
+      href: index.html
+    - text: "Positions"
+      href: Positions.html
+    - text: "Trades"
+      href: Trades.html
+    - text: "Results"
+      href: Results.html
+    - text: "Plots"
+      href: Plots.html
+    - text: "Models"
+      href: Models.html
+output_dir: docs
