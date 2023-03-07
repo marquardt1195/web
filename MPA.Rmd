@@ -1,0 +1,32 @@
+---
+output: 
+  html_document:
+    theme: darkly
+    toc: true
+    toc_float: true
+---
+
+<style type="text/css">
+  body{
+  font-size: 11pt;
+  font-family: Arial
+}
+</style>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(shiny)
+```
+
+## Minervini Private Access 
+
+#### Audio Recordings
+<span style="color:#FFFF99">*Q&A Session February 23, 2023*</span><br>
+
+![](audio/MPA_QA_23Feb.mp3)<br>
+![](audio/MPA_QA_23Feb2.mp3)<br>
+![](audio/MPA_QA_23Feb3.mp3)
+
+
+
+

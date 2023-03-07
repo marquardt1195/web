@@ -1,0 +1,552 @@
+---
+title: "VPC Model Book"
+output: 
+  html_document:
+    theme: darkly
+    toc: true
+    toc_float: true
+---
+
+<style type="text/css">
+  body{
+  font-size: 11pt;
+  font-family: Arial
+}
+img[src$="#round"] {
+  display: block;
+  margin: 0 auto;
+  border-radius: 1%;
+}
+</style>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+<br>
+
+## Minervini Buys 2021
+  
+### <span style="color:#FFFF99">*AAPL*</span>
+
+<i> Daily Pre BO
+![](figures/models/Minervini-2021/AAPL-daily-pre.png#round)
+
+Weekly Pre BO
+![](figures/models/Minervini-2021/AAPL-weekly-pre.png#round)
+
+Daily Post BO
+![](figures/models/Minervini-2021/AAPL-daily-post.png#round)
+
+Weekly Post BO</i>
+![](figures/models/Minervini-2021/AAPL-weekly-post.png#round)
+
+***
+
+### <span style="color:#FFFF99">*ANF*</span>
+
+
+<i> Daily Pre BO
+![](figures/models/Minervini-2021/ANF-daily-pre.png#round)
+
+Weekly Pre BO
+![](figures/models/Minervini-2021/ANF-weekly-pre.png#round)
+
+Daily Post BO
+![](figures/models/Minervini-2021/ANF-daily-post.png#round)
+
+Weekly Post BO</i>
+![](figures/models/Minervini-2021/ANF-weekly-post.png#round)
+
+***
+
+### <span style="color:#FFFF99">*BNTX*</span>
+
+
+<i> Daily Pre BO
+![](figures/models/Minervini-2021/BNTX-daily-pre.png#round)
+
+Weekly Pre BO
+![](figures/models/Minervini-2021/BNTX-weekly-pre.png#round)
+
+Daily Post BO
+![](figures/models/Minervini-2021/BNTX-daily-post.png#round)
+
+Weekly Post BO</i>
+![](figures/models/Minervini-2021/BNTX-weekly-post.png#round)
+
+***
+
+### <span style="color:#FFFF99">*GBOX*</span>
+
+
+<i> Daily Pre BO
+![](figures/models/Minervini-2021/GBOX-daily-pre.png#round)
+
+Weekly Pre BO
+![](figures/models/Minervini-2021/GBOX-weekly-pre.png#round)
+
+Daily Post BO
+![](figures/models/Minervini-2021/GBOX-daily-post.png#round)
+
+Weekly Post BO</i>
+![](figures/models/Minervini-2021/GBOX-weekly-post.png#round)
+
+***
+
+### <span style="color:#FFFF99">*GM*</span>
+
+
+<i> Daily Pre BO
+![](figures/models/Minervini-2021/GM-daily-pre.png#round)
+
+Weekly Pre BO
+![](figures/models/Minervini-2021/GM-weekly-pre.png#round)
+
+Daily Post BO
+![](figures/models/Minervini-2021/GM-daily-post.png#round)
+
+Weekly Post BO</i>
+![](figures/models/Minervini-2021/GM-weekly-post.png#round)
+
+***
+
+### <span style="color:#FFFF99">*HSKA*</span>
+
+
+<i> Daily Pre BO
+![](figures/models/Minervini-2021/HSKA-daily-pre.png#round)
+
+Weekly Pre BO
+![](figures/models/Minervini-2021/HSKA-weekly-pre.png#round)
+
+Daily Post BO
+![](figures/models/Minervini-2021/HSKA-daily-post.png#round)
+
+Weekly Post BO</i>
+![](figures/models/Minervini-2021/HSKA-weekly-post.png#round)
+
+***
+
+### <span style="color:#FFFF99">*MP*</span>
+
+<i> Daily Pre BO
+![](figures/models/Minervini-2021/MP-daily-pre.png#round)
+
+Weekly Pre BO
+![](figures/models/Minervini-2021/MP-weekly-pre.png#round)
+
+Daily Post BO
+![](figures/models/Minervini-2021/MP-daily-post.png#round)
+
+Weekly Post BO</i>
+![](figures/models/Minervini-2021/MP-weekly-post.png#round)
+
+***
+
+### <span style="color:#FFFF99">*MRNA*</span>
+
+
+<i> Daily Pre BO
+![](figures/models/Minervini-2021/MRNA-daily-pre.png#round)
+
+Weekly Pre BO
+![](figures/models/Minervini-2021/MRNA-weekly-pre.png#round)
+
+Daily Post BO
+![](figures/models/Minervini-2021/MRNA-daily-post.png#round)
+
+Weekly Post BO</i>
+![](figures/models/Minervini-2021/MRNA-weekly-post.png#round)
+
+***
+
+### <span style="color:#FFFF99">*NNOX*</span>
+
+
+<i> Daily Pre BO
+![](figures/models/Minervini-2021/NNOX-daily-pre.png#round)
+
+Weekly Pre BO
+![](figures/models/Minervini-2021/NNOX-weekly-pre.png#round)
+
+Daily Post BO
+![](figures/models/Minervini-2021/NNOX-daily-post.png#round)
+
+Weekly Post BO</i>
+![](figures/models/Minervini-2021/NNOX-weekly-post.png#round)
+
+***
+
+### <span style="color:#FFFF99">*NUE*</span>
+
+
+<i> Daily Pre BO
+![](figures/models/Minervini-2021/NUE-daily-pre.png#round)
+
+
+Weekly Pre BO
+![](figures/models/Minervini-2021/NUE-weekly-pre.png#round)
+
+ Daily Post BO
+![](figures/models/Minervini-2021/NUE-daily-post.png#round)
+
+Weekly Post BO</i>
+![](figures/models/Minervini-2021/NUE-weekly-post.png#round)
+
+***
+
+### <span style="color:#FFFF99">*PAG*</span>
+
+<i> Daily Pre BO
+![](figures/models/Minervini-2021/PAG-daily-pre.png#round)
+
+Weekly Pre BO
+![](figures/models/Minervini-2021/PAG-weekly-pre.png#round)
+
+Daily Post BO
+![](figures/models/Minervini-2021/PAG-daily-post.png#round)
+
+Weekly Post BO</i>
+![](figures/models/Minervini-2021/PAG-weekly-post.png#round)
+
+***
+
+### <span style="color:#FFFF99">*SKY*</span>
+
+<i> Daily Pre BO
+![](figures/models/Minervini-2021/SKY-daily-pre.png#round)
+
+Weekly Pre BO
+![](figures/models/Minervini-2021/SKY-weekly-pre.png#round)
+
+Daily Post BO
+![](figures/models/Minervini-2021/SKY-daily-post.png#round)
+
+Weekly Post BO</i>
+![](figures/models/Minervini-2021/SKY-weekly-post.png#round)
+
+***
+
+### <span style="color:#FFFF99">*STAA*</span>
+
+
+<i> Daily Pre BO
+![](figures/models/Minervini-2021/STAA-daily-pre.png#round)
+
+Weekly Pre BO
+![](figures/models/Minervini-2021/STAA-weekly-pre.png#round)
+
+Daily Post BO
+![](figures/models/Minervini-2021/STAA-daily-post.png#round)
+
+Weekly Post BO</i>
+![](figures/models/Minervini-2021/STAA-weekly-post.png#round)
+
+***
+
+### <span style="color:#FFFF99">*TSLA*</span>
+
+
+<i> Daily Pre BO
+![](figures/models/Minervini-2021/TSLA-daily-pre.png#round)
+
+
+Weekly Pre BO
+![](figures/models/Minervini-2021/TSLA-weekly-pre.png#round)
+
+ Daily Post BO
+![](figures/models/Minervini-2021/TSLA-daily-post.png#round)
+
+Weekly Post BO</i>
+![](figures/models/Minervini-2021/TSLA-weekly-post.png#round)
+
+***
+
+### <span style="color:#FFFF99">*TSP*</span>
+
+
+<i> Daily Pre BO
+![](figures/models/Minervini-2021/TSP-daily-pre.png#round)
+
+Weekly Pre BO
+![](figures/models/Minervini-2021/TSP-weekly-pre.png#round)
+
+Daily Post BO
+![](figures/models/Minervini-2021/TSP-daily-post.png#round)
+
+Weekly Post BO</i>
+![](figures/models/Minervini-2021/TSP-weekly-post.png#round)
+
+***
+
+### <span style="color:#FFFF99">*YETI*</span>
+
+
+<i> Daily Pre BO
+![](figures/models/Minervini-2021/YETI-daily-pre.png#round)
+
+
+Weekly Pre BO
+![](figures/models/Minervini-2021/YETI-weekly-pre.png#round)
+
+ Daily Post BO
+![](figures/models/Minervini-2021/YETI-daily-post.png#round)
+
+Weekly Post BO</i>
+![](figures/models/Minervini-2021/YETI-weekly-post.png#round)
+
+
+***
+
+### <span style="color:#FFFF99">*ZIM*</span>
+
+
+<i> Daily Pre BO
+![](figures/models/Minervini-2021/ZIM-daily-pre.png#round)
+
+Weekly Pre BO
+![](figures/models/Minervini-2021/ZIM-weekly-pre.png#round)
+
+Daily Post BO
+![](figures/models/Minervini-2021/ZIM-daily-post.png#round)
+
+Weekly Post BO</i>
+![](figures/models/Minervini-2021/ZIM-weekly-post.png#round)
+
+
+***
+
+## Personal Buys
+
+### <span style="color:#FFFF99">*AMR*</span>
+
+
+<i> Daily Pre BO
+![](figures/models/Personal/AMR-daily-pre.png#round)
+
+Weekly Pre BO
+![](figures/models/Personal/AMR-weekly-pre.png#round)
+
+Daily Post BO
+![](figures/models/Personal/AMR-daily-post.png#round)
+
+Weekly Post BO</i>
+![](figures/models/Personal/AMR-weekly-post.png#round)
+
+***
+
+### <span style="color:#FFFF99">*AR*</span>
+
+
+<i> Daily Pre BO
+![](figures/models/Personal/AR-daily-pre.png#round)
+
+Weekly Pre BO
+![](figures/models/Personal/AR-weekly-pre.png#round)
+
+Daily Post BO
+![](figures/models/Personal/AR-daily-post.png#round)
+
+Weekly Post BO</i>
+![](figures/models/Personal/AR-weekly-post.png#round)
+
+***
+
+### <span style="color:#FFFF99">*ARCH*</span>
+
+
+<i> Daily Pre BO
+![](figures/models/Personal/ARCH-daily-pre.png#round)
+
+Weekly Pre BO
+![](figures/models/Personal/ARCH-weekly-pre.png#round)
+
+Daily Post BO
+![](figures/models/Personal/ARCH-daily-post.png#round)
+
+Weekly Post BO</i>
+![](figures/models/Personal/ARCH-weekly-post.png#round)
+
+***
+
+### <span style="color:#FFFF99">*CJ*</span>
+
+
+<i> Daily Pre BO
+![](figures/models/Personal/CJ-daily-pre.png#round)
+
+Daily Post BO
+![](figures/models/Personal/CJ-daily-post.png#round)
+
+***
+
+### <span style="color:#FFFF99">*CRT*</span>
+
+
+<i> Daily Pre BO
+![](figures/models/Personal/CRT-daily-pre.png#round)
+
+
+Daily Post BO
+![](figures/models/Personal/CRT-daily-post.png#round)
+
+***
+
+### <span style="color:#FFFF99">*IT*</span>
+
+
+<i> Daily Pre BO
+![](figures/models/Personal/IT-daily-pre.png#round)
+
+Weekly Pre BO
+![](figures/models/Personal/IT-weekly-pre.png#round)
+
+Daily Post BO
+![](figures/models/Personal/IT-daily-post.png#round)
+
+Weekly Post BO</i>
+
+***
+
+### <span style="color:#FFFF99">*NFE*</span>
+
+
+<i> Daily Pre BO
+![](figures/models/Personal/NFE-daily-pre.png#round)
+
+Daily Post BO
+![](figures/models/Personal/NFE-daily-post.png#round)
+
+
+### <span style="color:#FFFF99">*OXY*</span>
+
+
+<i> Daily Pre BO
+![](figures/models/Personal/OXY-daily-pre.png#round)
+
+
+Daily Post BO
+![](figures/models/Personal/OXY-daily-post.png#round)
+
+***
+
+## Additional Model VCP's
+
+### <span style="color:#FFFF99">*CDW*</span>
+
+
+<i> Daily Pre BO
+![](figures/models/TAPlot/CDW-daily-pre.png#round)
+
+
+Weekly Pre BO
+![](figures/models/TAPlot/CDW-weekly-pre.png#round)
+
+ Daily Post BO
+![](figures/models/TAPlot/CDW-daily-post.png#round)
+
+Weekly Post BO</i>
+![](figures/models/TAPlot/CDW-weekly-post.png#round)
+
+***
+
+### <span style="color:#FFFF99">*DCT*</span>
+
+
+<i> Daily Pre BO
+![](figures/models/TAPlot/DCT-daily-pre.png#round)
+
+Weekly Pre BO
+![](figures/models/TAPlot/DCT-weekly-pre.png#round)
+
+Daily Post BO
+![](figures/models/TAPlot/DCT-daily-post.png#round)
+
+Weekly Post BO</i>
+![](figures/models/TAPlot/DCT-weekly-post.png#round)
+
+***
+
+### <span style="color:#FFFF99">*GMED*</span>
+
+
+<i> Daily Pre BO
+![](figures/models/TAPlot/GMED-daily-pre.png#round)
+
+
+Weekly Pre BO
+![](figures/models/TAPlot/GMED-weekly-pre.png#round)
+
+ Daily Post BO
+![](figures/models/TAPlot/GMED-daily-post.png#round)
+
+Weekly Post BO</i>
+![](figures/models/TAPlot/GMED-weekly-post.png#round)
+
+***
+
+### <span style="color:#FFFF99">*KLIC*</span>
+
+
+<i> Daily Pre BO
+![](figures/models/TAPlot/KLIC-daily-pre.png#round)
+
+Weekly Pre BO
+![](figures/models/TAPlot/KLIC-weekly-pre.png#round)
+
+Daily Post BO
+![](figures/models/TAPlot/KLIC-daily-post.png#round)
+
+Weekly Post BO</i>
+![](figures/models/TAPlot/KLIC-weekly-post.png#round)
+
+***
+
+### <span style="color:#FFFF99">*SEMR*</span>
+
+
+<i> Daily Pre BO
+![](figures/models/TAPlot/SEMR-daily-pre.png#round)
+
+Weekly Pre BO
+![](figures/models/TAPlot/SEMR-weekly-pre.png#round)
+
+Daily Post BO
+![](figures/models/TAPlot/SEMR-daily-post.png#round)
+
+Weekly Post BO</i>
+![](figures/models/TAPlot/SEMR-weekly-post.png#round)
+
+***
+
+### <span style="color:#FFFF99">*SHOP*</span>
+
+
+<i> Daily Pre BO
+![](figures/models/TAPlot/SHOP-daily-pre.png#round)
+
+Weekly Pre BO
+![](figures/models/TAPlot/SHOP-weekly-pre.png#round)
+
+Daily Post BO
+![](figures/models/TAPlot/SHOP-daily-post.png#round)
+
+Weekly Post BO</i>
+![](figures/models/TAPlot/SHOP-weekly-post.png#round)
+
+***
+
+### <span style="color:#FFFF99">*STLD*</span>
+
+
+<i> Daily Pre BO
+![](figures/models/TAPlot/STLD-daily-pre.png#round)
+
+Weekly Pre BO
+![](figures/models/TAPlot/STLD-weekly-pre.png#round)
+
+Daily Post BO
+![](figures/models/TAPlot/STLD-daily-post.png#round)
+
+Weekly Post BO</i>
+![](figures/models/TAPlot/STLD-weekly-post.png#round)

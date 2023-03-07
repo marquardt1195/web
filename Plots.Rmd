@@ -1,0 +1,364 @@
+---
+output: 
+  html_document:
+    theme: darkly
+    toc: true
+    toc_float: true
+---
+
+
+```{r, include=FALSE}
+trade_results_final <- read.csv(sprintf("Trade_Results_%s.csv", Sys.Date()))
+```
+
+```{r, include = FALSE}
+library(ggplot2)
+library(reshape)
+library(kimisc)
+library(tidyverse)
+library(dplyr)
+library(scales)
+library(knitr)
+library(kableExtra)
+library(reactable)
+library(devtools)
+library(ggthemes)
+```
+
+
+```{r NEW_plot_data, echo=FALSE, warning=FALSE}
+start_bal <- 15264
+
+df_plot_data1 <- trade_results_final %>% 
+   group_by(trade) %>% 
+   mutate(entries = coalesce(entries, 0),   # set na's of specific columns to 0 using coalesce
+         entry_price = coalesce(entry_price, 0),
+         exits = coalesce(exits, 0),
+         exit_price = coalesce(exit_price, 0)) %>% 
+   mutate("weight_avg_buy" = (sum(entries*entry_price))/sum(entries)) %>% 
+   mutate("weight_avg_sell" = (sum(exits*exit_price))/sum(exits)) %>% 
+   mutate("total_bought" = sum(entries)) %>% 
+   mutate("total_sold" = sum(exits)) %>% 
+   mutate("pl_dollar" = ((weight_avg_sell*total_sold)-(weight_avg_buy*total_sold))) %>% 
+   mutate("pl_percent_trade" = ((weight_avg_sell-weight_avg_buy)/weight_avg_buy)*100) %>% 
+   mutate("winners" = ifelse(pl_percent_trade>=0.5, 1, 0)) %>% 
+   mutate("losers" = ifelse(pl_percent_trade<=-0.5, 1, 0)) 
+
+
+df_plot_data2 <- df_plot_data1 %>%   #PL % plot (NAV % Change)
+  select(trade, month, pl_dollar) %>% 
+  group_by(trade) %>% 
+  distinct(trade, month, pl_dollar, .keep_all = FALSE) %>% 
+  summarise("pl_dollar" = sum(pl_dollar)) %>% 
+  mutate(pl_dollar = coalesce(pl_dollar, 0)) %>% 
+  mutate("cumsum" = cumsum(pl_dollar)) %>% 
+  mutate("end_bal" = start_bal + cumsum) %>% 
+  filter(pl_dollar != 0) %>% 
+  mutate("start_bal_trade" = end_bal - pl_dollar) %>% 
+  mutate("percent_change_trade" = ((end_bal - start_bal_trade)/start_bal_trade)*100) %>% 
+  mutate("cumsum" = cumsum(percent_change_trade)) %>% 
+  select(trade, cumsum) %>% 
+  #distinct(cumsum) %>% 
+  mutate_if(is.numeric, round, 2)
+
+
+df_plot_data3 <- df_plot_data1 %>%   #PL $ plot (NAV $ Change)
+  select(trade, month, pl_dollar) %>% 
+  group_by(trade) %>% 
+  distinct(trade, pl_dollar, .keep_all = FALSE) %>% 
+  summarise("pl_dollar" = sum(pl_dollar)) %>% 
+  drop_na() %>% 
+  mutate("pl_dollar" = coalesce(pl_dollar, 0)) %>% 
+  mutate("cumsum" = cumsum(pl_dollar)) %>% 
+  select(trade, cumsum) %>% 
+  mutate_if(is.numeric, round, 2)
+  
+df_plot_data4 <- df_plot_data3 %>% #Principal balance $
+  mutate("balance" = start_bal + cumsum) %>% 
+  select(trade, balance) %>% 
+  mutate_if(is.numeric, round, 2)
+```
+
+### Profit/Loss %
+```{r DONE_pl_percent_plot, echo=FALSE, warning=FALSE}
+ggplot() +
+  geom_point(
+    data = df_plot_data2,
+    aes(trade, cumsum)
+  ) +
+  geom_line(
+    data = df_plot_data2,
+    aes(trade, cumsum),
+    size = 1.2
+  ) + 
+  geom_label(
+    data = df_plot_data2,
+    aes(trade, cumsum, label = cumsum),
+        nudge_x = 0.01,
+        nudge_y = 0.01,
+        check_overlap = TRUE,
+        size = 3
+  ) +
+  labs(
+    x = "Trade Number",
+    y = "Profit/Loss %"
+  ) +
+  scale_x_continuous(
+  ) +
+  scale_y_continuous(
+    labels = scales::percent_format(accuracy = 0.1,
+      scale = 1,
+      prefix = "",
+      suffix = "%",
+      big.mark = " ",
+      decimal.mark = ".",
+      trim = TRUE)
+   )+
+  theme(
+  # plot.title = element_text(hjust = 0.5),
+   plot.background = element_rect(fill = "steelblue4", colour = NA),
+   panel.background = element_rect(fill = "gray85", colour = NA),
+   axis.text = element_text(colour = "linen"),
+   axis.title = element_text(colour = "linen"),
+   plot.margin = unit(c(1,1,1,1), "cm"))
+
+
+#Table next to plot
+
+#kable(df_max_min_percent, 
+#    col.names = c("Stock", "P/L %", "P/L %"), 
+#    align = c('c','c', 'c'), 
+#    digits = 2,
+#    caption = "<center>Best and Worst Trades %</center>",
+#    table.attr ="style='width: 30%;'") %>% 
+#  kable_styling(bootstrap_options = c("bordered","condensed"),
+#    position = "float_right",
+#    full_width = FALSE,
+#    font_size = 12)  %>%
+#  column_spec(2:3, 
+#    color = ifelse(df_max_min_percent$Reward >= 0.5, "#00cc00", "#ff3333")) %>%
+#  column_spec(1, 
+#    background = "whitesmoke") %>% 
+#  row_spec(row = 0, 
+#    font_size = 12, 
+#    bold = TRUE, 
+#    background = "#a9c5eb", 
+#    color = "black", 
+#    extra_css = 'vertical-align: middle !important;')
+```
+<br>
+
+### Profit/Loss $
+```{r DONE_pl_dollar_plot, echo=FALSE, warning=FALSE}
+ggplot() +
+  geom_point(
+    data = df_plot_data3,
+    aes(trade, cumsum)
+  ) +
+  geom_line(
+    data = df_plot_data3,
+    aes(trade, cumsum),
+    size = 1.2
+  ) + 
+  geom_label(
+    data = df_plot_data3,
+    aes(trade, cumsum, label = cumsum),
+        nudge_x = 0.25,
+        nudge_y = 0.25,
+        check_overlap = TRUE,
+        size = 3
+  ) +
+  labs(
+    x = "Trade Number",
+    y = "Profit/Loss $",
+    color = "Month"
+  ) +
+  scale_x_continuous(
+  ) +
+  scale_y_continuous(
+    labels = dollar_format()
+  ) +
+  theme(
+   plot.title = element_text(hjust = 0.5),
+   plot.background = element_rect(fill = "steelblue4", colour = NA),
+   panel.background = element_rect(fill = "gray85", colour = NA),
+   axis.text = element_text(colour = "linen"),
+   axis.title = element_text(colour = "linen"),
+   plot.margin = unit(c(1,1,1,1), "cm"))
+  
+#geom_label(
+#    data = df_start_dol_principal_label,
+#    aes(trade, dollar_increase_principal, label = dollar_increase_principal)
+#  )+
+#geom_label(
+#    data = df_end_dol_principal_increase_label,
+#    aes(trade, dollar_increase_principal, label = dollar_increase_principal)
+#  )
+```
+<br>
+
+<kbd>![](C:\Users\marqu\Desktop\Stocks\Educational\Figures\Marder-Tweet1.jpg){width=33%}</kbd><kbd>![](C:\Users\marqu\Desktop\Stocks\Educational\Figures\Minervini-Tweet1.jpg){width=33%}</kbd><kbd>![](C:\Users\marqu\Desktop\Stocks\Educational\Figures\Minervini-Tweet2.jpg){width=31%}</kbd>
+
+<br>
+<br>
+
+### Principal Balance
+```{r DONE_Principal_bal_plot, echo=FALSE, warning=FALSE}
+ggplot()+
+  geom_point(
+    data = df_plot_data4,
+    aes(trade, balance)
+  ) +
+  geom_line(
+    data = df_plot_data4,
+    aes(trade, balance),
+    size = 1.2
+  ) + 
+  geom_label(
+    data = df_plot_data4,
+    aes(trade, balance, label = balance),
+        nudge_x = 0.01,
+        nudge_y = 0.01,
+        check_overlap = TRUE,
+        size = 3
+  ) +
+  labs(
+    x = "Trade Number",
+    y = "Principal Balance"
+  ) +
+  scale_x_continuous(
+  ) +
+  scale_y_continuous(
+   # trans='log10',
+    labels = dollar_format()
+  ) +
+  theme(
+   plot.background = element_rect(fill = "steelblue4", colour = NA),
+   panel.background = element_rect(fill = "gray85", colour = NA),
+   axis.text = element_text(colour = "linen"),
+   axis.title = element_text(colour = "linen"),
+    plot.margin = unit(c(1,1,1,1), "cm")
+  ) 
+
+#Kable DEPOSIT table
+#kable(df_deposits, 
+#    col.names = c("Date", "Deposit Amount"), 
+#    align = c('c', 'c'), 
+#    digits = 2,
+#    caption = "<center>Deposits</center>",
+#    table.attr ="style='width: 30%;'") %>% 
+#  kable_styling(bootstrap_options = c("bordered","condensed"),
+#    position = "float_right",
+#    full_width = FALSE,
+#    font_size = 14)  %>%
+#  row_spec(row = 0, 
+#    font_size = 14, 
+#    bold = TRUE, 
+#    background = "#a9c5eb", 
+#    color = "black", 
+#    extra_css = 'vertical-align: middle !important;')
+
+```
+<br>
+<br>
+
+### Distribution of Gains & Losses
+```{r DONE_distribution_gains_plot, echo = FALSE, warning=FALSE}
+ggplot()+
+  geom_histogram(
+    data = df_plot_data1, 
+    aes(pl_percent_trade, ..count..),
+    breaks = seq(-12, 30, by=2),
+    fill = "cornflowerblue",
+    color = "black"
+    ) +
+    geom_vline(
+    aes(xintercept=0),
+    linetype = "dashed",
+    color = "Blue2",
+    size = 1.5
+    )+
+  scale_y_continuous(
+    breaks = seq(0, 100, by=4),
+    labels = paste(seq(0, 100, 4))
+  )+
+  scale_x_continuous(
+    labels = scales::percent_format(
+      accuracy = 0.1,
+      scale = 1,
+      prefix = "",
+      suffix = "%",
+      big.mark = " ",
+      decimal.mark = ".",
+      trim = TRUE),
+   breaks = seq(-12, 100, by=4)
+  )+
+  labs(
+    y = "Frequency",
+    x = "P/L %"
+  ) +
+  theme(
+   plot.title = element_text(hjust = 0.5),
+   plot.background = element_rect(fill = "steelblue4", colour = NA),
+   panel.background = element_rect(fill = "gray85", colour = NA),
+   axis.text = element_text(colour = "linen"),
+   axis.title = element_text(colour = "linen"),
+   plot.margin = unit(c(1,1,1,1), "cm")
+    
+  )
+```
+<br>
+Closed and open positions. Partials included.
+<br>
+<br>
+
+### Density Curve of Gains & Losses
+```{r DONE_density_curve_plot, echo = FALSE, warning=FALSE}
+ggplot() +
+  geom_histogram(
+    data = df_plot_data1,
+    aes(pl_percent_trade, y = ..density..),
+    breaks = seq(-12, 30, by=2),
+    fill = "cornflowerblue",
+    color = "black"
+    ) +
+  geom_density(
+    data = df_plot_data1,
+    aes(pl_percent_trade),
+    alpha = 0.3,
+    fill = "#FFEE58")+
+  geom_vline(
+    aes(xintercept=0),
+    linetype = "dashed",
+    color = "Blue",
+    size = 1.5
+    )+
+  scale_x_continuous(
+    labels = scales::percent_format(accuracy = 0.1,
+    scale = 1,
+    prefix = "",
+    suffix = "%",
+    big.mark = " ",
+    decimal.mark = ".",
+    trim = TRUE),
+ breaks = seq(-12, 30, by=4)
+  )+
+  labs(
+    y = "Density",
+    x = "P/L %"
+  ) +
+  theme(
+    plot.title = element_text(hjust = 0.5),
+    plot.background = element_rect(fill = "steelblue4", colour = NA),
+    panel.background = element_rect(fill = "gray85", colour = NA),
+    axis.text = element_text(colour = "linen"),
+    axis.title = element_text(colour = "linen"),
+    plot.margin = unit(c(1,1,1,1), "cm"))
+```
+<br>
+<br>
+
+<kbd>![](C:\Users\marqu\Desktop\Stocks\Educational\Figures\Minervini-Tweet4.jpg){width=30%}</kbd><kbd>![](C:\Users\marqu\Desktop\Stocks\Educational\Figures\Marder-Tweet2.jpg){width=35%}</kbd><kbd>![](C:\Users\marqu\Desktop\Stocks\Educational\Figures\Trader.jpg){width=32%}</kbd>
+
+<br>
+<br>
